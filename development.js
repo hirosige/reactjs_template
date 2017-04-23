@@ -1,13 +1,14 @@
 import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const src = path.resolve(__dirname, 'src');
-const disc = path.resolve(__dirname, 'dist');
+const dist = path.resolve(__dirname, 'dist');
 
 export default {
-    entry: src + 'index.jsx',
+    entry: src + '/main.jsx',
 
     output: {
-        path:     dist,
+        path: dist,
         filename: 'bundle.js'
     },
 
@@ -16,14 +17,24 @@ export default {
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
-                loader: 'babel'
+                loader: 'babel-loader'
             }
         ]
     },
 
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['.js']
     },
 
-    plugins: []
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: src + '/index.html',
+            filename: 'index.html'
+        })
+    ],
+
+    devServer: {
+        contentBase: __dirname + '/src',
+        host: "192.168.33.11"
+    }
 }
